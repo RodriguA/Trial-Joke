@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8" />
+<title>Apanhei-te!</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 40px;
+    background: #f0f0f0;
+  }
+  #message {
+    font-size: 1.5rem;
+    margin: 20px 0;
+  }
+  #coords {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h1>Sorry, not sorry</h1>
+<div id="message">This page has been downloading since: <span id="time"></span></div>
+<div id="coords">Downloading...</div>
+
+<script>
+  // Mostrar a hora de abertura
+  function formatTime(date) {
+    return date.toLocaleTimeString('pt-PT');
+  }
+  document.getElementById('time').textContent = formatTime(new Date());
+
+  // Pedir localização
+  function showPosition(position) {
+    const lat = position.coords.latitude.toFixed(6);
+    const lon = position.coords.longitude.toFixed(6);
+    document.getElementById('coords').textContent = `You are here: Lat ${lat}, Lon ${lon}`;
+  }
+
+  function showError(error) {
+    switch(error.code) {
+      case error.PERMISSION_DENIED:
+        document.getElementById('coords').textContent = "U GAY";
+        break;
+      case error.POSITION_UNAVAILABLE:
+        document.getElementById('coords').textContent = "U GAY";
+        break;
+      case error.TIMEOUT:
+        document.getElementById('coords').textContent = "U GAY";
+        break;
+      default:
+        document.getElementById('coords').textContent = "U GAY.";
+        break;
+    }
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    document.getElementById('coords').textContent = "U GAY";
+  }
+</script>
+
+</body>
+</html>
